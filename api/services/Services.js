@@ -1,4 +1,5 @@
 const database = require('../models')
+const { Op } = require('sequelize')
 
 class Services {
     constructor(nomeDoModelo){
@@ -15,6 +16,19 @@ class Services {
 
     async pegarRegistroPorId(id){
         return database[this.nomeDoModelo].findOne({ where: { id: Number(id) } })
+    }
+
+    async pegarRegistrosPorMes(dataInicio, dataFim){
+        return database[this.nomeDoModelo].findAll({
+            where: {
+                data: {
+                    [Op.and]: {
+                        [Op.gte]: dataInicio,
+                        [Op.lt]: dataFim
+                    }
+                }
+            }
+        })
     }
 
     async criarRegistro(dados){

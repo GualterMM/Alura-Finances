@@ -54,6 +54,40 @@ class DespesaController {
         }
     }
     
+    static async pegarDespesasPorDescricao(req, res){
+        let response
+        const descricao = req.query.descricao || null
+        const where = { "descricao" : descricao }
+
+        try{
+            const despesa = await despesasServices.pegarTodosOsRegistrosOnde(where)
+            response = res.status(200).json(despesa)
+        } catch(err){
+            response = res.status(500).json(err.message)
+        } finally{
+            return response
+        }
+    }
+
+    static async pegarDespesasPorMes(req, res){
+        let response
+        // FIXME: Fazer validação dos params.
+        let { ano, mes } = req.params
+        ano = Number(ano)
+        mes = Number(mes)
+
+        const dataInicio = `${ano}-${mes}-01`
+        const dataFim = mes % 12 == 0 ? `${ano + 1}-01-01` : `${ano}-${mes + 1}-01`
+
+        try{
+            const despesa = await despesasServices.pegarRegistrosPorMes(dataInicio, dataFim)
+            response = res.status(200).json(despesa)
+        } catch(err){
+            response = res.status(500).json(err.message)
+        } finally{
+            return response
+        }
+    }
 
     static async atualizarDespesaPorId(req, res){
         let response

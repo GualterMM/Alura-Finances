@@ -1,7 +1,9 @@
 const DespesasServices = require('./DespesasServices')
 const ReceitasServices = require('./ReceitasServices')
+const ResumoServices = require('./ResumoServices')
 
 module.exports = {
     DespesasServices: DespesasServices,
-    ReceitasServices: ReceitasServices
+    ReceitasServices: ReceitasServices,
+    ResumoServices: ResumoServices
 }
